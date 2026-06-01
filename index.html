@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌍 세계 문화 탐구 대시보드</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="초등학교 및 중학교 학생들을 위한 아기자기한 세계 기후 및 의식주 문화 탐구 대시보드 웹사이트입니다. 직접 기록하고 친구들과 공유해 보세요!">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            pastel: {
+              cream: '#FFFDF9',
+              pink: '#FFF0F3',
+              pinkDark: '#FF8B94',
+              blue: '#EAF6FF',
+              blueDark: '#A8D8EA',
+              mint: '#E8F8F5',
+              mintDark: '#A3E4D7',
+              yellow: '#FFFBEB',
+              yellowDark: '#FDE047',
+              purple: '#F5EEF8',
+              purpleDark: '#D7BDE2'
+            }
+          },
+          borderRadius: {
+            '3xl': '1.5rem',
+            '4xl': '2rem'
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="cute-grid-bg min-h-screen pb-16">
+
+  <!-- 헤더 영역 -->
+  <header class="relative overflow-hidden bg-gradient-to-b from-pastel-blue to-transparent pt-12 pb-6 px-4 md:px-8">
+    <!-- 비행기 & 구름 배경 장식 -->
+    <div class="absolute top-10 left-10 text-4xl animate-float-slow opacity-30 select-none hidden md:block">☁️</div>
+    <div class="absolute top-20 right-1/4 text-5xl animate-float opacity-30 select-none hidden md:block">✈️</div>
+    <div class="absolute bottom-5 right-10 text-4xl animate-float-slow opacity-20 select-none hidden md:block">🎈</div>
+
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+      <!-- 텍스트 헤더 -->
+      <div class="text-center md:text-left flex-1">
+        <div class="inline-flex items-center space-x-2 bg-white/80 border border-slate-100 rounded-full px-4 py-1.5 mb-4 shadow-sm text-sm font-semibold text-sky-600">
+          <span>🌍 온누리 사회 탐구 프로젝트</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl text-slate-800 tracking-tight leading-tight mb-4 cute-font">
+          세계 문화 탐구 <span class="text-sky-500">대시보드</span>
+        </h1>
+        <p class="text-slate-500 text-base md:text-lg leading-relaxed max-w-xl">
+          친구들과 함께 전 세계의 신기한 나라들을 탐색해 볼까요?<br>
+          각 나라의 다양한 기후와 특별한 <span class="underline decoration-pink-400 decoration-wavy decoration-2">의(의복)</span>, <span class="underline decoration-amber-400 decoration-wavy decoration-2">식(음식)</span>, <span class="underline decoration-emerald-400 decoration-wavy decoration-2">주(주거)</span> 문화를<br>기록하고 공유해 보아요.
+        </p>
+      </div>
+
+      <!-- 배너 이미지 -->
+      <div class="w-full md:w-5/12 max-w-md relative flex justify-center">
+        <div class="relative w-full aspect-[4/3] rounded-3xl overflow-hidden soft-shadow border-4 border-white transform rotate-1 hover:rotate-0 transition-all duration-500">
+          <img src="banner.png" alt="세계 지도 탐색 일러스트" class="w-full h-full object-cover">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 콘텐츠 영역 -->
+  <main class="max-w-7xl mx-auto px-4 md:px-8 mt-6">
+    
+    <!-- 학급 선택 탭 바 -->
+    <div class="flex items-center justify-start border-b-2 border-slate-200 mb-8 gap-1 select-none overflow-x-auto pb-1">
+      <button id="class-tab-1-5" onclick="switchClass('1-5')" 
+        class="class-tab px-6 py-3 rounded-t-2xl font-bold text-sm flex items-center gap-2 border-t-2 border-x-2 border-transparent text-slate-400 hover:bg-slate-100 transition-all focus:outline-none">
+        <span>🏫 1학년 5반</span>
+      </button>
+      <button id="class-tab-1-6" onclick="switchClass('1-6')" 
+        class="class-tab px-6 py-3 rounded-t-2xl font-bold text-sm flex items-center gap-2 border-t-2 border-x-2 border-transparent text-slate-400 hover:bg-slate-100 transition-all focus:outline-none">
+        <span>🏫 1학년 6반</span>
+      </button>
+      <button id="class-tab-example" onclick="switchClass('example')" 
+        class="class-tab px-6 py-3 rounded-t-2xl font-bold text-sm flex items-center gap-2 border-t-2 border-x-2 border-transparent text-slate-400 hover:bg-slate-100 transition-all focus:outline-none">
+        <span>💡 예시 모둠 (선생님 예시)</span>
+      </button>
+    </div>
+
+    <!-- 모둠 탐구 보드 섹션 -->
+    <section class="mb-10 bg-amber-50/60 border-2 border-amber-200/60 rounded-4xl p-6 md:p-8 soft-shadow relative">
+      <div class="absolute -top-3 -left-3 text-3xl select-none">📌</div>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 id="groups-board-title" class="text-2xl font-bold text-slate-800 cute-font flex items-center gap-2">
+            <span>👥</span> 우리 반 모둠별 탐구 현황
+          </h2>
+          <p class="text-slate-500 text-xs mt-1">모둠원들과 함께 탐구할 기후와 나라를 매핑하고 탐구 보고서로 바로 갈 수 있어요!</p>
+        </div>
+      </div>
+      
+      <!-- 모둠 카드 그리드 -->
+      <div id="groups-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- app.js에서 동적으로 렌더링 -->
+      </div>
+    </section>
+
+    <!-- 검색 및 제어창 바 -->
+    <div class="bg-white/80 backdrop-blur-md rounded-3xl border border-slate-100 p-6 md:p-8 soft-shadow flex flex-col lg:flex-row items-center justify-between gap-6 mb-10">
+      
+      <!-- 검색어 입력 -->
+      <div class="w-full lg:w-1/3 relative">
+        <input type="text" id="search-input" placeholder="나라 이름이나 키워드를 검색하세요..." 
+          class="w-full pl-12 pr-4 py-3.5 input-cute bg-slate-50 border-slate-100 text-slate-700 placeholder-slate-400 text-sm">
+        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 text-lg">🔍</div>
+      </div>
+
+      <!-- 정렬/필터 & 추가 버튼 -->
+      <div class="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+        <!-- 기후 필터 -->
+        <div class="flex items-center space-x-2">
+          <span class="text-slate-500 text-sm font-semibold whitespace-nowrap">🌡️ 기후 분류:</span>
+          <select id="climate-filter" class="px-4 py-3 input-cute bg-slate-50 border-slate-100 text-slate-700 text-sm cursor-pointer pr-10">
+            <option value="all">전체 기후 보기 🌍</option>
+            <option value="tropical">열대 기후 ☀️</option>
+            <option value="dry">건조 기후 🌵</option>
+            <option value="temperate">온대 기후 🌳</option>
+            <option value="cold">냉대 기후 🌲</option>
+            <option value="polar">한대 기후 ❄️</option>
+          </select>
+        </div>
+
+        <!-- 추가하기 버튼 -->
+        <button onclick="openAddForm()" class="bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-500 hover:to-sky-600 text-white font-bold px-6 py-3.5 rounded-2xl shadow-lg shadow-sky-200 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0 text-sm">
+          <span>새로운 나라 추가하기</span>
+          <span class="text-base">➕</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 카드 그리드 영역 -->
+    <div id="cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- 동적으로 카드 렌더링 -->
+    </div>
+
+    <!-- 데이터가 없을 때 표시될 엠티 스테이트 -->
+    <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center">
+      <div class="text-7xl mb-6 animate-float">🗺️</div>
+      <h3 class="text-2xl font-bold text-slate-700 mb-2 cute-font">검색된 나라가 없어요</h3>
+      <p class="text-slate-400 mb-6 max-w-sm">새로운 나라를 직접 등록하여 탐색을 채워보는 건 어떨까요?</p>
+      <button onclick="openAddForm()" class="bg-sky-400 hover:bg-sky-500 text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md">
+        첫 번째 나라 등록하기 ➕
+      </button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-20 border-t border-slate-200/50 pt-8 text-center text-slate-400 text-xs">
+    <p>🏕️ 학생들이 주도적으로 세계 문화를 알아보고 탐구하는 스마트 사회 교과 배움터</p>
+    <p class="mt-1">ⓒ 2026 세계 문화 탐험 교실. All Rights Reserved.</p>
+  </footer>
+
+
+  <!-- 1. 국가 추가 및 편집 모달 -->
+  <div id="form-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-overlay bg-slate-900/40">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 max-w-4xl w-full max-h-[90vh] overflow-y-auto modal-content transform transition-all duration-300 relative flex flex-col">
+      <!-- 폼 상단 헤더 -->
+      <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h2 id="form-title" class="text-2xl font-bold text-slate-800 cute-font">🌍 새로운 탐구 국가 등록하기</h2>
+        <button onclick="closeFormModal()" class="w-10 h-10 bg-slate-200/60 hover:bg-slate-200 text-slate-600 rounded-full flex items-center justify-center text-lg font-bold transition-colors">✕</button>
+      </div>
+
+      <!-- 폼 본문 -->
+      <form id="country-form" class="p-6 md:p-8 flex-1 space-y-8">
+        
+        <!-- 섹션 1: 국가 기본 정보 -->
+        <div>
+          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2 border-b border-dashed border-slate-200 pb-2">
+            <span>📌 1단계. 나라 기본 정보 입력하기</span>
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- 국가명 -->
+            <div>
+              <label for="country-name" class="block text-xs font-semibold text-slate-500 mb-2">국가 이름 *</label>
+              <input type="text" id="country-name" required placeholder="예: 이탈리아" 
+                class="w-full px-4 py-3 input-cute text-sm">
+            </div>
+            <!-- 국기 이모지 입력 -->
+            <div>
+              <label for="country-emoji" class="block text-xs font-semibold text-slate-500 mb-2">국기 이모지 *</label>
+              <input type="text" id="country-emoji" required placeholder="이모지 복사 붙여넣기" 
+                class="w-full px-4 py-3 input-cute text-sm">
+            </div>
+            <!-- 담당 탐구 모둠 -->
+            <div>
+              <label for="country-group" class="block text-xs font-semibold text-slate-500 mb-2">담당 탐구 모둠</label>
+              <select id="country-group" class="w-full px-4 py-3 input-cute text-sm bg-white cursor-pointer">
+                <!-- app.js에서 동적으로 채워집니다. -->
+              </select>
+            </div>
+            <!-- 이모지 간편 클릭 세트 -->
+            <div class="md:col-span-3">
+              <span class="block text-xs font-semibold text-slate-500 mb-2">💡 자주 쓰는 국기 이모지 클릭:</span>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇰🇷</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇪🇬</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇧🇷</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇯🇵</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇺🇸</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇨🇳</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇫🇷</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇬🇧</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇮🇳</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇦🇺</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇨🇦</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇲🇽</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇩🇪</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇮🇹</button>
+                <button type="button" class="quick-emoji px-2.5 py-1.5 bg-slate-100 hover:bg-sky-100 rounded-lg text-lg transition-colors">🇻🇳</button>
+              </div>
+            </div>
+            <!-- 한 줄 소개 -->
+            <div class="md:col-span-3">
+              <label for="country-summary" class="block text-xs font-semibold text-slate-500 mb-2">나라 소개 (한 줄 요약) *</label>
+              <input type="text" id="country-summary" required placeholder="예: 피자와 르네상스 예술이 깃든 장화 모양의 매력적인 유럽 국가" 
+                class="w-full px-4 py-3 input-cute text-sm">
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션 2: 기후 정보 -->
+        <div>
+          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2 border-b border-dashed border-slate-200 pb-2">
+            <span>🌡️ 2단계. 기후 환경 조사하기</span>
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label for="country-climate" class="block text-xs font-semibold text-slate-500 mb-2">기후 대분류 *</label>
+              <select id="country-climate" class="w-full px-4 py-3 input-cute text-sm bg-white cursor-pointer">
+                <option value="temperate">온대 기후 🌳</option>
+                <option value="tropical">열대 기후 ☀️</option>
+                <option value="dry">건조 기후 🌵</option>
+                <option value="cold">냉대 기후 🌲</option>
+                <option value="polar">한대 기후 ❄️</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label for="climate-desc" class="block text-xs font-semibold text-slate-500 mb-2">기후 상세 설명 *</label>
+              <textarea id="climate-desc" required rows="2" placeholder="이 나라의 계절 특징이나 날씨는 어떤지 설명해 주세요..." 
+                class="w-full px-4 py-3 input-cute text-sm resize-none"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션 3: 의식주 정보 -->
+        <div>
+          <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2 border-b border-dashed border-slate-200 pb-2">
+            <span>👚 3단계. 의식주 문화 정보 입력하기</span>
+          </h3>
+          
+          <div class="space-y-6">
+            <!-- 의복 (衣) -->
+            <div class="bg-pastel-pink/20 border border-pink-100 rounded-2xl p-5 space-y-4">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">👘</span>
+                <h4 class="text-base font-bold text-slate-700">의복 (의) 문화</h4>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2 space-y-4">
+                  <textarea id="clothing-desc" rows="3" placeholder="어떤 종류의 의복을 주로 입나요? 기후 특성에 비추어 설명해 주세요." 
+                    class="w-full px-4 py-3 input-cute text-sm resize-none bg-white"></textarea>
+                  <input type="url" id="clothing-image" placeholder="의복 관련 이미지 URL (예: https://example.com/image.jpg)" 
+                    class="w-full px-4 py-3 input-cute text-sm bg-white">
+                </div>
+                <div class="flex flex-col items-center justify-center border border-dashed border-slate-200 bg-white rounded-xl p-2 relative h-36">
+                  <span class="text-xs text-slate-400 absolute">미리보기 영역</span>
+                  <img id="clothing-preview" src="" alt="의복 이미지 미리보기" class="w-full h-full object-cover rounded-lg hidden z-10">
+                </div>
+              </div>
+            </div>
+
+            <!-- 음식 (食) -->
+            <div class="bg-pastel-yellow/20 border border-yellow-100 rounded-2xl p-5 space-y-4">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">🍛</span>
+                <h4 class="text-base font-bold text-slate-700">음식 (식) 문화</h4>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2 space-y-4">
+                  <textarea id="food-desc" rows="3" placeholder="대표 음식은 무엇이며 어떤 재료를 많이 사용하나요?" 
+                    class="w-full px-4 py-3 input-cute text-sm resize-none bg-white"></textarea>
+                  <input type="url" id="food-image" placeholder="음식 관련 이미지 URL" 
+                    class="w-full px-4 py-3 input-cute text-sm bg-white">
+                </div>
+                <div class="flex flex-col items-center justify-center border border-dashed border-slate-200 bg-white rounded-xl p-2 relative h-36">
+                  <span class="text-xs text-slate-400 absolute">미리보기 영역</span>
+                  <img id="food-preview" src="" alt="음식 이미지 미리보기" class="w-full h-full object-cover rounded-lg hidden z-10">
+                </div>
+              </div>
+            </div>
+
+            <!-- 주거 (住) -->
+            <div class="bg-pastel-mint/20 border border-mint-100 rounded-2xl p-5 space-y-4">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">🏠</span>
+                <h4 class="text-base font-bold text-slate-700">주거 (주) 문화</h4>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2 space-y-4">
+                  <textarea id="housing-desc" rows="3" placeholder="어떤 형태의 집에서 살고 있나요? 자연 환경과의 연관성을 보여주세요." 
+                    class="w-full px-4 py-3 input-cute text-sm resize-none bg-white"></textarea>
+                  <input type="url" id="housing-image" placeholder="주거 관련 이미지 URL" 
+                    class="w-full px-4 py-3 input-cute text-sm bg-white">
+                </div>
+                <div class="flex flex-col items-center justify-center border border-dashed border-slate-200 bg-white rounded-xl p-2 relative h-36">
+                  <span class="text-xs text-slate-400 absolute">미리보기 영역</span>
+                  <img id="housing-preview" src="" alt="주거 이미지 미리보기" class="w-full h-full object-cover rounded-lg hidden z-10">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 폼 하단 작업 버튼 -->
+        <div class="flex items-center justify-end space-x-3 pt-6 border-t border-slate-100">
+          <button type="button" onclick="closeFormModal()" 
+            class="px-6 py-3 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-600 font-semibold text-sm transition-colors">
+            취소하기
+          </button>
+          <button type="submit" 
+            class="px-8 py-3 bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-500 hover:to-sky-600 text-white font-bold rounded-xl text-sm shadow-md transition-all">
+            저장하여 등록하기 💾
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- 2. 국가별 상세 정보 보기 모달 (공책 다이어리 UI 스타일) -->
+  <div id="detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-overlay bg-slate-900/40">
+    <div class="bg-white rounded-4xl shadow-2xl border-4 border-slate-800 max-w-4xl w-full max-h-[85vh] overflow-y-auto modal-content transform transition-all duration-300 relative flex flex-col">
+      
+      <!-- 다이어리 장식 링바 (수학공책 테두리) -->
+      <div class="absolute left-6 right-6 top-0 -translate-y-4 h-6 flex justify-around pointer-events-none z-20">
+        <div class="w-4 h-8 bg-slate-400 border-2 border-slate-800 rounded-full"></div>
+        <div class="w-4 h-8 bg-slate-400 border-2 border-slate-800 rounded-full"></div>
+        <div class="w-4 h-8 bg-slate-400 border-2 border-slate-800 rounded-full px-4 select-none opacity-0"></div> <!-- 간격용 공백 -->
+        <div class="w-4 h-8 bg-slate-400 border-2 border-slate-800 rounded-full"></div>
+        <div class="w-4 h-8 bg-slate-400 border-2 border-slate-800 rounded-full"></div>
+        <div class="w-4 h-8 bg-slate-400 border-2 border-slate-800 rounded-full px-4 select-none opacity-0"></div>
+        <div class="w-4 h-8 bg-slate-400 border-2 border-slate-800 rounded-full"></div>
+        <div class="w-4 h-8 bg-slate-400 border-2 border-slate-800 rounded-full"></div>
+      </div>
+
+      <!-- 다이어리 헤더 -->
+      <div class="px-6 md:px-10 pt-10 pb-6 border-b border-dashed border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+        <!-- 제목 및 국기 -->
+        <div class="flex items-center space-x-4">
+          <div id="detail-emoji" class="w-16 h-16 bg-sky-50 border-2 border-slate-800 rounded-2xl flex items-center justify-center text-4xl shadow-md">
+            🇰🇷
+          </div>
+          <div class="text-center md:text-left">
+            <h2 id="detail-title" class="text-3xl md:text-4xl text-slate-800 font-extrabold cute-font leading-tight">대한민국</h2>
+            <p id="detail-summary" class="text-slate-400 text-sm mt-1">사계절이 뚜렷하고 아름다운 강산</p>
+          </div>
+        </div>
+
+        <!-- 닫기 및 관리 버튼 -->
+        <div class="flex items-center gap-3">
+          <button onclick="openEditForm()" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 border-2 border-slate-800 px-4 py-2 rounded-xl text-xs font-bold transition-all transform hover:scale-105 active:scale-95 shadow-sm">
+            수정하기 ✏️
+          </button>
+          <button onclick="deleteCountry()" class="bg-red-100 hover:bg-red-200 text-red-800 border-2 border-slate-800 px-4 py-2 rounded-xl text-xs font-bold transition-all transform hover:scale-105 active:scale-95 shadow-sm">
+            삭제하기 🗑️
+          </button>
+          <button onclick="closeDetailView()" class="w-10 h-10 bg-slate-100 hover:bg-slate-200 border-2 border-slate-800 text-slate-800 rounded-full flex items-center justify-center font-bold text-sm shadow-sm">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- 탭 메뉴 버튼 바 -->
+      <div class="bg-slate-50 border-b-2 border-slate-800 px-6 md:px-10 flex flex-wrap gap-2">
+        <button id="tab-btn-climate" onclick="switchTab('climate')" 
+          class="tab-btn active px-5 py-3.5 text-sm font-bold text-sky-600 flex items-center gap-2 focus:outline-none">
+          <span>🌡️ 기후 정보</span>
+        </button>
+        <button id="tab-btn-clothing" onclick="switchTab('clothing')" 
+          class="tab-btn px-5 py-3.5 text-sm font-bold text-slate-400 flex items-center gap-2 focus:outline-none">
+          <span>👘 의복 (의)</span>
+        </button>
+        <button id="tab-btn-food" onclick="switchTab('food')" 
+          class="tab-btn px-5 py-3.5 text-sm font-bold text-slate-400 flex items-center gap-2 focus:outline-none">
+          <span>🍛 음식 (식)</span>
+        </button>
+        <button id="tab-btn-housing" onclick="switchTab('housing')" 
+          class="tab-btn px-5 py-3.5 text-sm font-bold text-slate-400 flex items-center gap-2 focus:outline-none">
+          <span>🏠 주거 (주)</span>
+        </button>
+      </div>
+
+      <!-- 다이어리 상세 내용 렌더링 컨테이너 -->
+      <div id="detail-tab-content" class="p-8 md:p-10 flex-1 min-h-[400px]">
+        <!-- app.js에 의해 동적으로 데이터가 그려집니다. -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 모둠 설정 모달 -->
+  <div id="group-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-overlay bg-slate-900/40">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 max-w-md w-full modal-content transform transition-all duration-300 relative">
+      <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center justify-between rounded-t-3xl">
+        <h2 id="group-form-title" class="text-xl font-bold text-slate-800 cute-font">⚙️ 모둠 탐구 설정</h2>
+        <button onclick="closeGroupModal()" class="w-8 h-8 bg-slate-200/60 hover:bg-slate-200 text-slate-600 rounded-full flex items-center justify-center text-sm font-bold transition-colors">✕</button>
+      </div>
+      <form id="group-form" class="p-6 space-y-4">
+        <input type="hidden" id="edit-group-index">
+        <div>
+          <label for="group-name-input" class="block text-xs font-semibold text-slate-500 mb-2">모둠 이름</label>
+          <input type="text" id="group-name-input" required class="w-full px-4 py-2.5 input-cute text-sm">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 mb-2">탐구 대상 국가 선택 (중복 선택 가능) 🗺️</label>
+          <div id="group-countries-checkboxes" class="max-h-48 overflow-y-auto space-y-2.5 border-2 border-slate-200 rounded-xl p-3 bg-slate-50">
+            <!-- app.js에서 체크박스가 동적으로 로드됩니다. -->
+          </div>
+          <p class="text-[10px] text-slate-400 mt-1">💡 조사 중인 나라의 기후들이 모둠 카드에 자동으로 합쳐져 표시됩니다.</p>
+        </div>
+        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-slate-100">
+          <button type="button" onclick="closeGroupModal()" class="px-4 py-2 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-500 font-semibold text-xs transition-colors">
+            취소
+          </button>
+          <button type="submit" class="px-5 py-2 bg-sky-400 hover:bg-sky-500 text-white font-bold rounded-xl text-xs shadow-sm transition-all">
+            설정 저장 💾
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Javascript 로직 로드 -->
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=Outfit:wght@300;400;600;700&display=swap');
+
+/* Base Font & Root Styles */
+body {
+  font-family: 'Gowun Dodum', system-ui, -apple-system, sans-serif;
+  background-color: #F7F9FC;
+  color: #334155;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .cute-font {
+  font-family: 'Jua', 'Gowun Dodum', sans-serif;
+  font-weight: normal;
+}
+
+.english-font {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Custom Scrollbar for a polished look */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+  border: 2px solid #F1F5F9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Micro-animations */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes float-slow {
+  0% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-12px) translateX(5px); }
+  100% { transform: translateY(0px) translateX(0px); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(10deg); }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-wave {
+  display: inline-block;
+  animation: wave 2.5s ease-in-out infinite;
+  transform-origin: 70% 70%;
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* Notebook UI Elements */
+.notebook-spiral {
+  background-image: linear-gradient(to bottom, 
+    #94a3b8 0%, #94a3b8 20%, 
+    transparent 20%, transparent 80%, 
+    #94a3b8 80%, #94a3b8 100%
+  );
+  background-size: 100% 24px;
+}
+
+/* Polaroid Photo Styling */
+.polaroid-frame {
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 12px 12px 24px 12px;
+  transform: rotate(-1.5deg);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #E2E8F0;
+}
+
+.polaroid-frame:hover {
+  transform: rotate(1.5deg) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.polaroid-caption {
+  font-family: 'Jua', sans-serif;
+  color: #475569;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+/* Custom Soft Shadows */
+.soft-shadow {
+  box-shadow: 0 10px 30px -10px rgba(148, 163, 184, 0.3);
+}
+
+.soft-shadow-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.soft-shadow-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -15px rgba(148, 163, 184, 0.45);
+}
+
+/* Climate-specific subtle gradients */
+.bg-climate-tropical {
+  background: linear-gradient(135deg, #FFF9E6 0%, #FFF0D4 100%);
+  border-color: #FAD7A0;
+}
+.bg-climate-dry {
+  background: linear-gradient(135deg, #FEF9E7 0%, #FADBD8 100%);
+  border-color: #F5CBA7;
+}
+.bg-climate-temperate {
+  background: linear-gradient(135deg, #E8F8F5 0%, #D1F2EB 100%);
+  border-color: #A3E4D7;
+}
+.bg-climate-cold {
+  background: linear-gradient(135deg, #EBF5FB 0%, #D6EAF8 100%);
+  border-color: #AED6F1;
+}
+.bg-climate-polar {
+  background: linear-gradient(135deg, #F2F4F4 0%, #E5E8E8 100%);
+  border-color: #BDC3C7;
+}
+
+/* Grid Background Pattern */
+.cute-grid-bg {
+  background-color: #fcfdfe;
+  background-image: 
+    linear-gradient(rgba(226, 232, 240, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226, 232, 240, 0.4) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Styled Tabs */
+.tab-btn {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 10%;
+  width: 80%;
+  height: 4px;
+  background-color: currentColor;
+  border-radius: 9999px;
+}
+
+/* Multi-step/Input field styles */
+.input-cute {
+  border: 2px solid #E2E8F0;
+  border-radius: 16px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.input-cute:focus {
+  border-color: #93C5FD;
+  box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.25);
+}
+
+/* Modal animation overrides */
+.modal-overlay {
+  backdrop-filter: blur(8px);
+  transition: opacity 0.3s ease;
+}
+
+.modal-content {
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-active .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Custom Ribbon Header */
+.cute-ribbon {
+  position: relative;
+  background: #FF8B94;
+  color: white;
+}
+.cute-ribbon::before, .cute-ribbon::after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+}
