@@ -10,11 +10,11 @@ const defaultCountries = [
     ownerGroup: null, // 학급 초기 로딩 시 자유 탐구 상태
     clothing: {
       desc: "한복(Hanbok)은 대한민국의 전통 의상이에요. 부드러운 곡선과 밝고 고운 파스텔톤의 색상이 특징이며, 격식 있는 날에 입어요. 평소에는 현대적이고 트렌디한 일상복을 입으며, 계절에 맞추어 얇거나 두꺼운 옷을 입습니다.",
-      image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=800&q=80"
+      image: "south_korea_clothing.png"
     },
     food: {
       desc: "밥을 주식으로 하며, 다양한 국과 반찬을 곁들여 먹어요. 대표적인 음식으로는 김치, 비빔밥, 불고기가 있으며 영양 균형이 뛰어나고 발효 음식을 많이 먹는 것이 특징이에요.",
-      image: "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=800&q=80"
+      image: "south_korea_food.png"
     },
     housing: {
       desc: "전통 가옥인 한옥(Hanok)은 나무와 흙, 기와로 지어졌어요. 겨울에는 바닥을 따뜻하게 해주는 '온돌'과 여름에는 바람이 잘 통하는 '대청마루'가 있어 기후 변화에 잘 적응하도록 지어졌습니다. 오늘날에는 아파트나 양옥 등 현대적인 주거 형태가 많아요.",
@@ -31,11 +31,11 @@ const defaultCountries = [
     ownerGroup: null, // 학급 초기 로딩 시 자유 탐구 상태
     clothing: {
       desc: "갈라베야(Galabeya)는 온몸을 감싸는 통풍이 잘되는 긴 옷이에요. 강한 햇빛과 모래바람으로부터 피부를 보호하기 위해 밝은 색상의 천을 주로 사용하며 품이 넉넉하게 제작됩니다.",
-      image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80"
+      image: "egypt_clothing.png"
     },
     food: {
-      desc: "콩, 곡물, 채소를 주로 사용한 영양가 높은 음식을 먹어요. 삶은 병아리콩 and 다양한 곡물들을 섞어 만든 '코샤리(Kushari)'와 빵에 싸 먹는 '타아메야(이집트식 팔라펠)'가 대표적입니다.",
-      image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=800&q=80"
+      desc: "콩, 곡물, 채소를 주로 사용한 영양가 높은 음식을 먹어요. 삶은 병아리콩과 다양한 곡물들을 섞어 만든 '코샤리(Kushari)'와 빵에 싸 먹는 '타아메야(이집트식 팔라펠)'가 대표적입니다.",
+      image: "egypt_food.png"
     },
     housing: {
       desc: "전통적으로 나일강 주변의 진흙을 굳혀 만든 흙벽돌 집(Mud-brick House)에서 살았어요. 비가 거의 내리지 않아 지붕을 평평하게 만들어 창고나 더운 밤에 잠을 자는 공간으로 활용하며, 두꺼운 흙벽은 낮의 뜨거운 열기를 막아줍니다.",
@@ -52,11 +52,11 @@ const defaultCountries = [
     ownerGroup: null, // 학급 초기 로딩 시 자유 탐구 상태
     clothing: {
       desc: "고온 다습한 날씨 때문에 가볍고 통풍이 잘 되는 면 옷을 주로 입어요. 삼바 축제 기간에는 화려한 깃털과 보석으로 장식된 화려한 전통 축제 의상을 입고 춤을 춥니다.",
-      image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80"
+      image: "brazil_clothing.png"
     },
     food: {
       desc: "고기와 콩을 듬뿍 사용해요. 검은콩과 돼지고기의 여러 부위를 함께 넣고 푹 끓인 '페이조아다(Feijoada)'와 꼬치에 꿰어 숯불에 구운 고기 요리인 '슈하스코(Churrasco)'가 가장 유명합니다.",
-      image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80"
+      image: "brazil_food.png"
     },
     housing: {
       desc: "아마존 강 유역이나 습지대에서는 바닥 위에 기둥을 세워 집을 높이 띄운 '수상 가옥(Palafita)'을 짓고 살아요. 잦은 홍수로 인해 강물이 불어나는 것을 대비하고 습기와 해충으로부터 안전하게 지켜줍니다.",
@@ -73,11 +73,11 @@ const defaultCountries = [
     ownerGroup: null,
     clothing: {
       desc: "겨울이 춥고 길어서 두꺼운 패딩, 털모자, 장갑 등을 주로 입어요. 전통적으로 원주민들은 사슴이나 순록의 가죽과 털로 따뜻한 방한복을 지어 입었습니다.",
-      image: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&w=800&q=80"
+      image: "canada_clothing.png"
     },
     food: {
       desc: "단풍나무 수액을 달여 만든 '메이플 시럽'을 팬케이크 등에 곁들여 먹는 것으로 유명합니다. 또한 감자튀김에 치즈 커드와 따뜻한 그레이비소스를 얹은 '푸틴(Poutine)'도 대표적입니다.",
-      image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80"
+      image: "canada_food.png"
     },
     housing: {
       desc: "주변에 침엽수가 많아 튼튼하고 따뜻한 '통나무집(Log Cabin)'을 짓고 살았습니다. 오늘날 벽을 두껍게 만들고 단열 처리를 한 현대식 단독 주택과 아파트가 많습니다.",
@@ -94,47 +94,18 @@ const defaultCountries = [
     ownerGroup: null,
     clothing: {
       desc: "체온을 유지하기 위해 바다표범이나 순록의 생가죽과 방수 털로 만든 두꺼운 전통 아노락(Anorak)을 입고 가죽 장화를 신습니다. 현대에는 특수 방한 아웃도어 의류를 일상적으로 입습니다.",
-      image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80"
+      image: "greenland_clothing.png"
     },
     food: {
       desc: "농사가 불가능해 전통적으로 바다표범, 고래, 순록 같은 동물을 사냥하거나 생선을 잡아서 먹었습니다. 날고기로 영양소를 보충하거나 말려서 오랫동안 보존해 두고 먹습니다.",
-      image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80"
+      image: "greenland_food.png"
     },
     housing: {
       desc: "사냥할 때는 주변의 눈블록을 잘라 둥글게 쌓아 만든 임시 거처인 '이글루(Igloo)'에서 묵기도 했습니다. 오늘날은 단열을 잘하고 눈속에서도 쉽게 찾을 수 있도록 알록달록한 원색으로 칠해진 나무 목조 가옥에서 생활합니다.",
-      image: "greenland_house.png" // 로컬 생성 한대 기후 목조 주택 일러스트 이미지
+      image: "greenland_house.png" // 로컬 생성 한대 기후 목조 주택 일러스트 이미지 (이글루)
     }
   }
 ];
-
-// --- 기후별 기본 이미지 추천셋 ---
-const fallbackImages = {
-  tropical: {
-    clothing: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80",
-    food: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
-    housing: "brazil_house.png" // 로컬 생성 일러스트
-  },
-  dry: {
-    clothing: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=800&q=80",
-    food: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=800&q=80",
-    housing: "egypt_house.png" // 로컬 생성 일러스트
-  },
-  temperate: {
-    clothing: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=80",
-    food: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80",
-    housing: "south_korea_house.png" // 로컬 생성 일러스트
-  },
-  cold: {
-    clothing: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&w=800&q=80",
-    food: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80",
-    housing: "canada_house.png" // 로컬 생성 일러스트
-  },
-  polar: {
-    clothing: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80",
-    food: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80",
-    housing: "greenland_house.png" // 로컬 생성 일러스트
-  }
-};
 
 // 기후 한국어 및 이모지 변환 매핑
 const climateLabels = {
@@ -235,28 +206,39 @@ function initData() {
     }
   }
 
-  // 4. 주거 사진 링크 업데이트 및 마이그레이션 패치 (구버전의 잘못 들어간 더미 Unsplash 이미지들을 직접 제작한 일러스트 이미지들로 전면 교체)
+  // 4. 사진 링크 업데이트 및 마이그레이션 패치
   let databaseUpdated = false;
   countries.forEach(c => {
-    if (c.id === "south-korea" && (c.housing.image.includes("unsplash.com") || !c.housing.image)) {
-      c.housing.image = "south_korea_house.png";
-      databaseUpdated = true;
-    }
-    if (c.id === "egypt" && (c.housing.image.includes("unsplash.com") || !c.housing.image)) {
-      c.housing.image = "egypt_house.png";
-      databaseUpdated = true;
-    }
-    if (c.id === "brazil" && (c.housing.image.includes("unsplash.com") || !c.housing.image)) {
-      c.housing.image = "brazil_house.png";
-      databaseUpdated = true;
-    }
-    if (c.id === "canada" && (c.housing.image.includes("unsplash.com") || !c.housing.image)) {
-      c.housing.image = "canada_house.png";
-      databaseUpdated = true;
-    }
-    if (c.id === "greenland" && (c.housing.image.includes("unsplash.com") || !c.housing.image)) {
-      c.housing.image = "greenland_house.png";
-      databaseUpdated = true;
+    const defaultCountry = defaultCountries.find(dc => dc.id === c.id);
+    if (defaultCountry) {
+      // 예시 모둠(example class)일 때는 무조건 예시 사진이 복구되도록 빈 값("")일 때도 기본 템플릿 값으로 채워줍니다.
+      // 또는 기존에 Unsplash 주소가 저장되어 있던 데이터라면, 새로 생성한 로컬 일러스트 이미지(예: south_korea_clothing.png)로 강제 업그레이드합니다.
+      const shouldRestoreClothing = (currentClass === 'example') 
+        ? (!c.clothing.image || c.clothing.image === "undefined" || c.clothing.image === "null" || c.clothing.image.includes("unsplash.com"))
+        : (c.clothing.image === undefined || c.clothing.image === null || c.clothing.image.includes("unsplash.com"));
+
+      if (shouldRestoreClothing) {
+        c.clothing.image = defaultCountry.clothing.image;
+        databaseUpdated = true;
+      }
+
+      const shouldRestoreFood = (currentClass === 'example')
+        ? (!c.food.image || c.food.image === "undefined" || c.food.image === "null" || c.food.image.includes("unsplash.com"))
+        : (c.food.image === undefined || c.food.image === null || c.food.image.includes("unsplash.com"));
+
+      if (shouldRestoreFood) {
+        c.food.image = defaultCountry.food.image;
+        databaseUpdated = true;
+      }
+
+      const shouldRestoreHousing = (currentClass === 'example')
+        ? (!c.housing.image || c.housing.image === "undefined" || c.housing.image === "null" || c.housing.image.includes("unsplash.com"))
+        : (c.housing.image === undefined || c.housing.image === null || c.housing.image.includes("unsplash.com"));
+
+      if (shouldRestoreHousing) {
+        c.housing.image = defaultCountry.housing.image;
+        databaseUpdated = true;
+      }
     }
   });
   if (databaseUpdated) {
@@ -564,57 +546,84 @@ function renderDetailContent() {
       break;
 
     case 'clothing':
-      const clothingImg = country.clothing.image || fallbackImages[country.climate]?.clothing || fallbackImages.temperate.clothing;
-      contentHtml = `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div>
+      const clothingImg = country.clothing.image;
+      if (clothingImg && clothingImg !== "undefined" && clothingImg !== "null") {
+        contentHtml = `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h4 class="text-2xl text-slate-800 mb-4 font-bold">전통 및 현대 의복 👘</h4>
+              <p class="text-slate-600 leading-relaxed text-base whitespace-pre-wrap">${country.clothing.desc || '의복 정보가 등록되지 않았습니다.'}</p>
+            </div>
+            <div class="flex justify-center">
+              <div class="polaroid-frame w-full max-w-sm">
+                <img src="${clothingImg}" alt="${country.name} 의복" class="w-full h-64 object-cover rounded-lg">
+                <div class="polaroid-caption">${country.name}의 멋과 옷차림 👗</div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        contentHtml = `
+          <div class="max-w-2xl">
             <h4 class="text-2xl text-slate-800 mb-4 font-bold">전통 및 현대 의복 👘</h4>
             <p class="text-slate-600 leading-relaxed text-base whitespace-pre-wrap">${country.clothing.desc || '의복 정보가 등록되지 않았습니다.'}</p>
           </div>
-          <div class="flex justify-center">
-            <div class="polaroid-frame w-full max-w-sm">
-              <img src="${clothingImg}" alt="${country.name} 의복" class="w-full h-64 object-cover rounded-lg" onerror="this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80'">
-              <div class="polaroid-caption">${country.name}의 멋과 옷차림 👗</div>
-            </div>
-          </div>
-        </div>
-      `;
+        `;
+      }
       break;
 
     case 'food':
-      const foodImg = country.food.image || fallbackImages[country.climate]?.food || fallbackImages.temperate.food;
-      contentHtml = `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div>
+      const foodImg = country.food.image;
+      if (foodImg && foodImg !== "undefined" && foodImg !== "null") {
+        contentHtml = `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h4 class="text-2xl text-slate-800 mb-4 font-bold">즐겨 먹는 맛있는 음식 🍛</h4>
+              <p class="text-slate-600 leading-relaxed text-base whitespace-pre-wrap">${country.food.desc || '음식 정보가 등록되지 않았습니다.'}</p>
+            </div>
+            <div class="flex justify-center">
+              <div class="polaroid-frame w-full max-w-sm">
+                <img src="${foodImg}" alt="${country.name} 음식" class="w-full h-64 object-cover rounded-lg">
+                <div class="polaroid-caption">맛있는 전통 밥상 냠냠 😋</div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        contentHtml = `
+          <div class="max-w-2xl">
             <h4 class="text-2xl text-slate-800 mb-4 font-bold">즐겨 먹는 맛있는 음식 🍛</h4>
             <p class="text-slate-600 leading-relaxed text-base whitespace-pre-wrap">${country.food.desc || '음식 정보가 등록되지 않았습니다.'}</p>
           </div>
-          <div class="flex justify-center">
-            <div class="polaroid-frame w-full max-w-sm">
-              <img src="${foodImg}" alt="${country.name} 음식" class="w-full h-64 object-cover rounded-lg" onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80'">
-              <div class="polaroid-caption">맛있는 전통 밥상 냠냠 😋</div>
-            </div>
-          </div>
-        </div>
-      `;
+        `;
+      }
       break;
 
     case 'housing':
-      const housingImg = country.housing.image || fallbackImages[country.climate]?.housing || fallbackImages.temperate.housing;
-      contentHtml = `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div>
+      const housingImg = country.housing.image;
+      if (housingImg && housingImg !== "undefined" && housingImg !== "null") {
+        contentHtml = `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h4 class="text-2xl text-slate-800 mb-4 font-bold">자연을 닮은 주거 형태 🏠</h4>
+              <p class="text-slate-600 leading-relaxed text-base whitespace-pre-wrap">${country.housing.desc || '주거 정보가 등록되지 않았습니다.'}</p>
+            </div>
+            <div class="flex justify-center">
+              <div class="polaroid-frame w-full max-w-sm">
+                <img src="${housingImg}" alt="${country.name} 주거" class="w-full h-64 object-cover rounded-lg">
+                <div class="polaroid-caption">기후를 이겨내는 특별한 집 🏡</div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        contentHtml = `
+          <div class="max-w-2xl">
             <h4 class="text-2xl text-slate-800 mb-4 font-bold">자연을 닮은 주거 형태 🏠</h4>
             <p class="text-slate-600 leading-relaxed text-base whitespace-pre-wrap">${country.housing.desc || '주거 정보가 등록되지 않았습니다.'}</p>
           </div>
-          <div class="flex justify-center">
-            <div class="polaroid-frame w-full max-w-sm">
-              <img src="${housingImg}" alt="${country.name} 주거" class="w-full h-64 object-cover rounded-lg" onerror="this.src='https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&w=800&q=80'">
-              <div class="polaroid-caption">기후를 이겨내는 특별한 집 🏡</div>
-            </div>
-          </div>
-        </div>
-      `;
+        `;
+      }
       break;
   }
 
@@ -663,12 +672,28 @@ function openAddForm(groupIndex = null) {
   
   const classNameKor = classNamesMapping[currentClass];
   formTitle.textContent = `🌍 [${classNameKor}] 새로운 탐구 국가 등록하기`;
+  
+  // 폼 및 이전 프리뷰 완전 초기화
   countryForm.reset();
   
-  // 프리뷰 이미지 숨김
+  document.getElementById('country-name').value = "";
+  document.getElementById('country-emoji').value = "";
+  document.getElementById('country-summary').value = "";
+  document.getElementById('country-climate').value = "temperate";
+  document.getElementById('climate-desc').value = "";
+  document.getElementById('clothing-desc').value = "";
+  document.getElementById('clothing-image').value = "";
+  document.getElementById('food-desc').value = "";
+  document.getElementById('food-image').value = "";
+  document.getElementById('housing-desc').value = "";
+  document.getElementById('housing-image').value = "";
+
   clothingPreview.classList.add('hidden');
+  clothingPreview.src = "";
   foodPreview.classList.add('hidden');
+  foodPreview.src = "";
   housingPreview.classList.add('hidden');
+  housingPreview.src = "";
 
   // 모둠 지정 제어
   if (groupIndex !== null && groupIndex !== undefined) {
@@ -690,28 +715,28 @@ function openEditForm() {
   const classNameKor = classNamesMapping[currentClass];
   formTitle.textContent = `✏️ [${classNameKor}] ${country.name} 정보 수정하기`;
 
-  // 값 채워넣기
-  document.getElementById('country-name').value = country.name;
-  document.getElementById('country-emoji').value = country.emoji;
-  document.getElementById('country-summary').value = country.summary;
-  document.getElementById('country-climate').value = country.climate;
-  document.getElementById('climate-desc').value = country.climateDesc;
+  // 값 채워넣기 (undefined/null 등이 필드에 문자열로 들어가지 않도록 보호 장치 적용)
+  document.getElementById('country-name').value = country.name || "";
+  document.getElementById('country-emoji').value = country.emoji || "";
+  document.getElementById('country-summary').value = country.summary || "";
+  document.getElementById('country-climate').value = country.climate || "temperate";
+  document.getElementById('climate-desc').value = country.climateDesc || "";
 
   // 담당 모둠 반영
   countryGroupSelect.value = country.ownerGroup !== undefined && country.ownerGroup !== null ? String(country.ownerGroup) : "";
   countryGroupSelect.disabled = false; // 수정을 원할 시 언제든지 변경 가능하게 오픈
 
-  document.getElementById('clothing-desc').value = country.clothing.desc;
-  document.getElementById('clothing-image').value = country.clothing.image;
-  updatePreview(country.clothing.image, clothingPreview);
+  document.getElementById('clothing-desc').value = country.clothing?.desc || "";
+  document.getElementById('clothing-image').value = country.clothing?.image || "";
+  updatePreview(country.clothing?.image || "", clothingPreview);
 
-  document.getElementById('food-desc').value = country.food.desc;
-  document.getElementById('food-image').value = country.food.image;
-  updatePreview(country.food.image, foodPreview);
+  document.getElementById('food-desc').value = country.food?.desc || "";
+  document.getElementById('food-image').value = country.food?.image || "";
+  updatePreview(country.food?.image || "", foodPreview);
 
-  document.getElementById('housing-desc').value = country.housing.desc;
-  document.getElementById('housing-image').value = country.housing.image;
-  updatePreview(country.housing.image, housingPreview);
+  document.getElementById('housing-desc').value = country.housing?.desc || "";
+  document.getElementById('housing-image').value = country.housing?.image || "";
+  updatePreview(country.housing?.image || "", housingPreview);
 
   closeDetailView();
   showFormModal();
@@ -725,6 +750,7 @@ function showFormModal() {
   }, 10);
 }
 
+// --- 국가 추가 및 편집 모달 닫기 ---
 function closeFormModal() {
   formModal.classList.remove('modal-active');
   setTimeout(() => {
