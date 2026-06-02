@@ -76,6 +76,36 @@
   <!-- 메인 콘텐츠 영역 -->
   <main class="max-w-7xl mx-auto px-4 md:px-8 mt-6">
     
+    <!-- 🌐 실시간 클라우드 모둠 공유 설정 -->
+    <div class="bg-gradient-to-r from-sky-50 to-blue-50/50 border border-sky-100 rounded-3xl p-5 md:p-6 mb-8 soft-shadow flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm border border-sky-100/50">
+          🌐
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+            실시간 모둠 공유
+            <span id="sync-status-badge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-200 text-slate-600">
+              <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+              오프라인 (단독 모드)
+            </span>
+          </h3>
+          <p class="text-slate-500 text-xs mt-0.5">방 코드를 입력하면 친구들과 실시간으로 나라와 모둠 정보를 공유할 수 있어요!</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-3 w-full md:w-auto">
+        <div class="relative flex-1 md:flex-initial">
+          <input type="text" id="sync-room-input" placeholder="공유 방 코드 (예: 하늘초53)" 
+            class="w-full md:w-56 px-4 py-2.5 input-cute bg-white border-slate-200 text-slate-700 placeholder-slate-400 text-sm font-semibold">
+        </div>
+        <button id="sync-connect-btn" onclick="toggleCloudSync()" 
+          class="bg-sky-400 hover:bg-sky-500 text-white font-bold px-5 py-2.5 rounded-xl shadow-md transition-all text-sm whitespace-nowrap">
+          공유 켜기 🌐
+        </button>
+      </div>
+    </div>
+
     <!-- 학급 선택 탭 바 -->
     <div class="flex items-center justify-start border-b-2 border-slate-200 mb-8 gap-1 select-none overflow-x-auto pb-1">
       <button id="class-tab-1-5" onclick="switchClass('1-5')" 
@@ -134,6 +164,12 @@
             <option value="polar">한대 기후 ❄️</option>
           </select>
         </div>
+
+        <!-- 새로고침 버튼 -->
+        <button onclick="fetchLatestData()" title="클라우드와 데이터를 즉시 동기화합니다" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 font-bold px-4 py-3.5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0 text-sm">
+          <span>실시간 동기화</span>
+          <span class="text-base">🔄</span>
+        </button>
 
         <!-- 추가하기 버튼 -->
         <button onclick="openAddForm()" class="bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-500 hover:to-sky-600 text-white font-bold px-6 py-3.5 rounded-2xl shadow-lg shadow-sky-200 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0 text-sm">

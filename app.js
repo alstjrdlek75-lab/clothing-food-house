@@ -9,7 +9,7 @@ const defaultCountries = [
     climateDesc: "봄, 여름, 가을, 겨울의 사계절이 뚜렷해요. 대체로 온화하고 강수량이 풍부해 농사가 잘 되는 기후입니다.",
     ownerGroup: null, // 학급 초기 로딩 시 자유 탐구 상태
     clothing: {
-      desc: "한복(Hanbok)은 대한민국의 전통 의상이에요. 부드러운 곡선과 밝고 고운 파스텔톤의 색상이 특징이며, 격식 있는 날에 입어요. 평소에는 현대적이고 트렌디한 일상복을 입으며, 계절에 맞추어 얇거나 두꺼운 옷을 입습니다.",
+      desc: "한복(Hanbok)은 대한민국의 전통 의상이에요. 부드러운 곡선 and 밝고 고운 파스텔톤의 색상이 특징이며, 격식 있는 날에 입어요. 평소에는 현대적이고 트렌디한 일상복을 입으며, 계절에 맞추어 얇거나 두꺼운 옷을 입습니다.",
       image: "south_korea_clothing.png"
     },
     food: {
@@ -39,7 +39,7 @@ const defaultCountries = [
     },
     housing: {
       desc: "전통적으로 나일강 주변의 진흙을 굳혀 만든 흙벽돌 집(Mud-brick House)에서 살았어요. 비가 거의 내리지 않아 지붕을 평평하게 만들어 창고나 더운 밤에 잠을 자는 공간으로 활용하며, 두꺼운 흙벽은 낮의 뜨거운 열기를 막아줍니다.",
-      image: "egypt_house.png" // 로컬 생성 누비안 진흙 주택 일러스트 이미지
+      image: "egypt_house.png" // 로컬 생성 진흙 가옥 일러스트 이미지
     }
   },
   {
@@ -81,7 +81,7 @@ const defaultCountries = [
     },
     housing: {
       desc: "주변에 침엽수가 많아 튼튼하고 따뜻한 '통나무집(Log Cabin)'을 짓고 살았습니다. 오늘날 벽을 두껍게 만들고 단열 처리를 한 현대식 단독 주택과 아파트가 많습니다.",
-      image: "canada_house.png" // 로컬 생성 캐나다 통나무집 일러스트 이미지
+      image: "canada_house.png" // 로컬 생성 통나무집 일러스트 이미지
     }
   },
   {
@@ -102,7 +102,7 @@ const defaultCountries = [
     },
     housing: {
       desc: "사냥할 때는 주변의 눈블록을 잘라 둥글게 쌓아 만든 임시 거처인 '이글루(Igloo)'에서 묵기도 했습니다. 오늘날은 단열을 잘하고 눈속에서도 쉽게 찾을 수 있도록 알록달록한 원색으로 칠해진 나무 목조 가옥에서 생활합니다.",
-      image: "greenland_house.png" // 로컬 생성 한대 기후 목조 주택 일러스트 이미지 (이글루)
+      image: "greenland_house.png" // 로컬 생성 목조 주택 일러스트 이미지
     }
   }
 ];
@@ -117,7 +117,7 @@ const climateLabels = {
   unassigned: { label: "기후 미지정 ❓", colorClass: "bg-gray-100 text-gray-500 border-gray-200" }
 };
 
-// 학급 변수 한국어 배칭 사전
+// 학급 변수 한국어 매핑 사전
 const classNamesMapping = {
   '1-5': '1학년 5반',
   '1-6': '1학년 6반',
@@ -131,6 +131,12 @@ let groups = [];
 let selectedCountry = null;
 let currentDetailTab = 'climate';
 let editingCountryId = null;
+
+// --- 실시간 클라우드 공유 변수 ---
+const KVDB_BUCKET = 'QYNFuWsYsAmrpF4fppLHRW';
+let syncRoomCode = '';
+let isCloudSyncing = false;
+let cloudSyncTimer = null;
 
 // --- 로컬 스토리지 데이터 동기화 ---
 function initData() {
@@ -146,12 +152,10 @@ function initData() {
     groups = JSON.parse(storedGroups);
   } else {
     if (currentClass === 'example') {
-      // 예시 모둠은 1개 모둠으로 구성하며, 5가지 기후 대표 국가를 전부 소유함
       groups = [
         { name: "예시 모둠", countryIds: ["south-korea", "egypt", "brazil", "canada", "greenland"] }
       ];
     } else {
-      // 일반 학급은 6개 모둠으로 시작
       groups = [
         { name: "1모둠", countryIds: [] },
         { name: "2모둠", countryIds: [] },
@@ -170,16 +174,14 @@ function initData() {
     countries = JSON.parse(storedData);
   } else {
     if (currentClass === 'example') {
-      // 예시 모둠의 국가들은 모두 예시 모둠(인덱스 0)의 소유
       countries = defaultCountries.map(c => ({ ...c, ownerGroup: 0 }));
     } else {
-      // 일반 학급은 소유권이 지정되지 않은 (자유 탐구) 템플릿 국가들로 로드
       countries = defaultCountries.map(c => ({ ...c, ownerGroup: null }));
     }
     localStorage.setItem(countriesKey, JSON.stringify(countries));
   }
 
-  // 3. 예시 모둠 규격 변경(6개 모둠 -> 1개 모둠 축소 및 5개 기후 추가) 대응 마이그레이션 실행
+  // 3. 예시 모둠 및 누락 템플릿 국가 보충 마이그레이션
   if (currentClass === 'example') {
     const hasCanada = countries.some(c => c.id === 'canada');
     const hasGreenland = countries.some(c => c.id === 'greenland');
@@ -190,10 +192,9 @@ function initData() {
         { name: "예시 모둠", countryIds: ["south-korea", "egypt", "brazil", "canada", "greenland"] }
       ];
       countries = defaultCountries.map(c => ({ ...c, ownerGroup: 0 }));
-      saveToLocalStorage();
+      saveToLocalStorage(true);
     }
   } else {
-    // 일반 학급에서 캐나다와 그린란드 템플릿 국가가 누락되었을 시 보충
     const hasCanada = countries.some(c => c.id === 'canada');
     const hasGreenland = countries.some(c => c.id === 'greenland');
     if (!hasCanada || !hasGreenland) {
@@ -202,17 +203,15 @@ function initData() {
           countries.push({ ...dc, ownerGroup: null });
         }
       });
-      saveToLocalStorage();
+      saveToLocalStorage(true);
     }
   }
 
-  // 4. 사진 링크 업데이트 및 마이그레이션 패치
+  // 4. 사진 링크 일관성 확인 및 복구
   let databaseUpdated = false;
   countries.forEach(c => {
     const defaultCountry = defaultCountries.find(dc => dc.id === c.id);
     if (defaultCountry) {
-      // 예시 모둠(example class)일 때는 무조건 예시 사진이 복구되도록 빈 값("")일 때도 기본 템플릿 값으로 채워줍니다.
-      // 또는 기존에 Unsplash 주소가 저장되어 있던 데이터라면, 새로 생성한 로컬 일러스트 이미지(예: south_korea_clothing.png)로 강제 업그레이드합니다.
       const shouldRestoreClothing = (currentClass === 'example') 
         ? (!c.clothing.image || c.clothing.image === "undefined" || c.clothing.image === "null" || c.clothing.image.includes("unsplash.com"))
         : (c.clothing.image === undefined || c.clothing.image === null || c.clothing.image.includes("unsplash.com"));
@@ -242,15 +241,282 @@ function initData() {
     }
   });
   if (databaseUpdated) {
-    saveToLocalStorage();
+    saveToLocalStorage(true);
   }
 }
 
-function saveToLocalStorage() {
+function saveToLocalStorage(skipServer = false) {
   const countriesKey = `world_countries_${currentClass}`;
   const groupsKey = `world_groups_${currentClass}`;
   localStorage.setItem(countriesKey, JSON.stringify(countries));
   localStorage.setItem(groupsKey, JSON.stringify(groups));
+  if (!skipServer) {
+    saveToServer();
+  }
+}
+
+// --- 네트워크 데이터 동기화 (클라우드 및 로컬 서버 통합) ---
+function saveToServer() {
+  if (isCloudSyncing && syncRoomCode) {
+    // 1. 인터넷 클라우드 데이터 동기화
+    const key = `data_${syncRoomCode}_${currentClass}`;
+    const url = `https://kvdb.io/${KVDB_BUCKET}/${key}`;
+
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        countries: countries,
+        groups: groups
+      })
+    })
+    .then(() => {
+      console.log('Saved to cloud:', key);
+    })
+    .catch(err => {
+      console.error('Failed to save to cloud:', err);
+    });
+    return;
+  }
+
+  // 2. 로컬 서버 백업 동기화 (로컬 서버가 돌고 있을 경우)
+  if (window.location.protocol === 'file:') return;
+
+  fetch('/api/save', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      classId: currentClass,
+      countries: countries,
+      groups: groups
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log('Saved to local server:', data);
+  })
+  .catch(err => {
+    console.error('Failed to save to local server:', err);
+  });
+}
+
+let syncTimer = null;
+
+function startSync() {
+  if (isCloudSyncing) return; // 클라우드 동기화 켜져있으면 로컬 백업 폴링은 중단
+  if (window.location.protocol === 'file:') return;
+
+  if (syncTimer) clearInterval(syncTimer);
+  fetchLatestData();
+
+  // 3초 주기로 로컬 서버 데이터 가져오기
+  syncTimer = setInterval(() => {
+    fetchLatestData();
+  }, 3000);
+}
+
+function fetchLatestData() {
+  if (isCloudSyncing && syncRoomCode) {
+    // 1. 인터넷 클라우드 데이터 가져오기 (kvdb.io)
+    const key = `data_${syncRoomCode}_${currentClass}`;
+    const url = `https://kvdb.io/${KVDB_BUCKET}/${key}`;
+
+    fetch(url)
+      .then(res => {
+        if (res.status === 404) {
+          // 데이터가 아직 생성 안됐으면 현재 로컬 데이터를 업로드하여 초기화
+          saveToServer();
+          return null;
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (!data) return;
+        
+        if (data && data.countries && data.countries.length > 0) {
+          const localCountriesStr = JSON.stringify(countries);
+          const localGroupsStr = JSON.stringify(groups);
+          const serverCountriesStr = JSON.stringify(data.countries);
+          const serverGroupsStr = JSON.stringify(data.groups);
+
+          if (localCountriesStr !== serverCountriesStr || localGroupsStr !== serverGroupsStr) {
+            countries = data.countries;
+            groups = data.groups;
+            saveToLocalStorage(true); // 로컬 캐시만 갱신
+            renderDashboard();
+            renderGroups();
+
+            // 상세 모달이 켜져있으면 최신내용 갱신
+            if (detailModal && !detailModal.classList.contains('hidden')) {
+              if (selectedCountry) {
+                const updated = countries.find(c => c.id === selectedCountry.id);
+                if (updated) {
+                  selectedCountry = updated;
+                  renderDetailContent();
+                } else {
+                  closeDetailView();
+                }
+              }
+            }
+          }
+        }
+      })
+      .catch(err => {
+        console.warn('Cloud sync failed (offline?):', err);
+      });
+    return;
+  }
+
+  // 2. 로컬 서버 데이터 가져오기
+  if (window.location.protocol === 'file:') return;
+
+  fetch(`/api/data?class=${currentClass}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.countries && data.countries.length > 0) {
+        const localCountriesStr = JSON.stringify(countries);
+        const localGroupsStr = JSON.stringify(groups);
+        const serverCountriesStr = JSON.stringify(data.countries);
+        const serverGroupsStr = JSON.stringify(data.groups);
+
+        if (localCountriesStr !== serverCountriesStr || localGroupsStr !== serverGroupsStr) {
+          countries = data.countries;
+          groups = data.groups;
+          saveToLocalStorage(true);
+          renderDashboard();
+          renderGroups();
+
+          if (detailModal && !detailModal.classList.contains('hidden')) {
+            if (selectedCountry) {
+              const updated = countries.find(c => c.id === selectedCountry.id);
+              if (updated) {
+                selectedCountry = updated;
+                renderDetailContent();
+              } else {
+                closeDetailView();
+              }
+            }
+          }
+        }
+      } else {
+        saveToServer();
+      }
+    })
+    .catch(err => {
+      console.warn('Local server sync failed (offline?):', err);
+    });
+}
+
+// --- 실시간 클라우드 공유 제어 ---
+function initCloudSync() {
+  const savedRoomCode = localStorage.getItem('sync_room_code') || '';
+  const isEnabled = localStorage.getItem('sync_enabled') === 'true';
+  
+  const roomInput = document.getElementById('sync-room-input');
+  if (roomInput) {
+    roomInput.value = savedRoomCode;
+  }
+  
+  if (savedRoomCode && isEnabled) {
+    syncRoomCode = savedRoomCode;
+    isCloudSyncing = true;
+    
+    const connectBtn = document.getElementById('sync-connect-btn');
+    const statusBadge = document.getElementById('sync-status-badge');
+    
+    if (connectBtn && statusBadge) {
+      connectBtn.innerText = '연결 끊기 ❌';
+      connectBtn.className = 'bg-rose-500 hover:bg-rose-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-md transition-all text-sm whitespace-nowrap';
+      statusBadge.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>연결됨 (실시간 공유 중)';
+      statusBadge.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
+    }
+    if (roomInput) {
+      roomInput.disabled = true;
+    }
+    
+    // 로컬 서버 타이머 비활성화
+    if (syncTimer) {
+      clearInterval(syncTimer);
+      syncTimer = null;
+    }
+    
+    // 클라우드 동기화 시작 (5초 간격)
+    if (cloudSyncTimer) clearInterval(cloudSyncTimer);
+    cloudSyncTimer = setInterval(() => {
+      fetchLatestData();
+    }, 5000);
+  }
+}
+
+function toggleCloudSync() {
+  const roomInput = document.getElementById('sync-room-input');
+  const connectBtn = document.getElementById('sync-connect-btn');
+  const statusBadge = document.getElementById('sync-status-badge');
+  
+  if (isCloudSyncing) {
+    // 연결 해제
+    isCloudSyncing = false;
+    if (cloudSyncTimer) {
+      clearInterval(cloudSyncTimer);
+      cloudSyncTimer = null;
+    }
+    syncRoomCode = '';
+    localStorage.setItem('sync_enabled', 'false');
+    localStorage.removeItem('sync_room_code');
+    
+    // UI 업데이트
+    connectBtn.innerText = '공유 켜기 🌐';
+    connectBtn.className = 'bg-sky-400 hover:bg-sky-500 text-white font-bold px-5 py-2.5 rounded-xl shadow-md transition-all text-sm whitespace-nowrap';
+    statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400"></span>오프라인 (단독 모드)';
+    statusBadge.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-200 text-slate-600';
+    roomInput.disabled = false;
+    
+    // 기존 로컬 백업 동기화 재시작
+    startSync();
+    
+    alert('실시간 클라우드 공유가 중단되었습니다. 이제 데이터는 본인 브라우저(로컬)에만 저장됩니다.');
+  } else {
+    // 연결 시도
+    const val = roomInput.value.trim();
+    if (!val) {
+      alert('공유할 방 코드를 입력해 주세요! (예: 하늘초53)');
+      return;
+    }
+    
+    if (!/^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\-]+$/.test(val)) {
+      alert('방 코드는 영문, 한글, 숫자, 하이픈(-)만 사용할 수 있습니다.');
+      return;
+    }
+    
+    syncRoomCode = val;
+    isCloudSyncing = true;
+    localStorage.setItem('sync_enabled', 'true');
+    localStorage.setItem('sync_room_code', val);
+    
+    // UI 업데이트
+    connectBtn.innerText = '연결 끊기 ❌';
+    connectBtn.className = 'bg-rose-500 hover:bg-rose-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-md transition-all text-sm whitespace-nowrap';
+    statusBadge.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>연결됨 (실시간 공유 중)';
+    statusBadge.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
+    roomInput.disabled = true;
+    
+    // 로컬 서버 타이머 비활성화
+    if (syncTimer) {
+      clearInterval(syncTimer);
+      syncTimer = null;
+    }
+    
+    // 즉시 동기화 시도
+    fetchLatestData();
+    
+    // 5초 간격으로 동기화 시작 (kvdb rate limit를 고려해 5초로 안전하게 설정)
+    cloudSyncTimer = setInterval(() => {
+      fetchLatestData();
+    }, 5000);
+    
+    alert(`실시간 클라우드 공유가 시작되었습니다!\n방 코드 [ ${val} ]을 입력한 다른 친구들과 실시간으로 화면이 연동됩니다.`);
+  }
 }
 
 // --- DOM 요소 참조 ---
@@ -294,9 +560,13 @@ const detailModalContent = detailModal.querySelector('.modal-content');
 // --- 이벤트 리스너 등록 ---
 document.addEventListener('DOMContentLoaded', () => {
   initData();
+  initCloudSync(); // 저장되어 있던 클라우드 룸 자동 동기화 활성화
   renderDashboard();
   renderGroups();
   updateClassTabsUI();
+
+  // 기존 로컬 서버가 있는 경우 로컬 동기화 실행
+  startSync();
 
   // 검색 및 필터 이벤트
   searchInput.addEventListener('input', renderDashboard);
@@ -348,6 +618,9 @@ function switchClass(classId) {
   renderDashboard();
   renderGroups();
   updateClassTabsUI();
+  
+  // 즉시 서버(혹은 클라우드)로부터 데이터 가져오기
+  fetchLatestData();
 }
 
 function updateClassTabsUI() {
@@ -518,7 +791,6 @@ function renderDetailContent() {
   const contentArea = document.getElementById('detail-tab-content');
   let contentHtml = '';
 
-  // 트랜지션 애니메이션 느낌을 위해 투명도 조절용 래퍼 사용
   contentArea.innerHTML = `<div class="opacity-0 transition-opacity duration-300" id="tab-animate-wrapper"></div>`;
   const wrapper = document.getElementById('tab-animate-wrapper');
 
@@ -547,7 +819,7 @@ function renderDetailContent() {
 
     case 'clothing':
       const clothingImg = country.clothing.image;
-      if (clothingImg && clothingImg !== "undefined" && clothingImg !== "null") {
+      if (clothingImg && clothingImg !== "undefined" && clothingImg !== "null" && clothingImg !== "") {
         contentHtml = `
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
@@ -574,7 +846,7 @@ function renderDetailContent() {
 
     case 'food':
       const foodImg = country.food.image;
-      if (foodImg && foodImg !== "undefined" && foodImg !== "null") {
+      if (foodImg && foodImg !== "undefined" && foodImg !== "null" && foodImg !== "") {
         contentHtml = `
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
@@ -601,7 +873,7 @@ function renderDetailContent() {
 
     case 'housing':
       const housingImg = country.housing.image;
-      if (housingImg && housingImg !== "undefined" && housingImg !== "null") {
+      if (housingImg && housingImg !== "undefined" && housingImg !== "null" && housingImg !== "") {
         contentHtml = `
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
@@ -633,7 +905,7 @@ function renderDetailContent() {
   }, 50);
 }
 
-// 기후 카드 일러스트 대체용 아름다운 그래픽 렌더러
+// 기후 카드 일러스트 대체용 그래픽 렌더러
 function getClimateIllustration(climate) {
   switch (climate) {
     case 'tropical':
@@ -673,7 +945,6 @@ function openAddForm(groupIndex = null) {
   const classNameKor = classNamesMapping[currentClass];
   formTitle.textContent = `🌍 [${classNameKor}] 새로운 탐구 국가 등록하기`;
   
-  // 폼 및 이전 프리뷰 완전 초기화
   countryForm.reset();
   
   document.getElementById('country-name').value = "";
@@ -695,13 +966,12 @@ function openAddForm(groupIndex = null) {
   housingPreview.classList.add('hidden');
   housingPreview.src = "";
 
-  // 모둠 지정 제어
   if (groupIndex !== null && groupIndex !== undefined) {
     countryGroupSelect.value = String(groupIndex);
-    countryGroupSelect.disabled = true; // 지정된 모둠에서 추가 시 고정
+    countryGroupSelect.disabled = true;
   } else {
-    countryGroupSelect.value = ""; // 글로벌 추가 시 기본적으로 자유 탐구 상태
-    countryGroupSelect.disabled = false; // 직접 선택 가능
+    countryGroupSelect.value = "";
+    countryGroupSelect.disabled = false;
   }
 
   showFormModal();
@@ -715,16 +985,14 @@ function openEditForm() {
   const classNameKor = classNamesMapping[currentClass];
   formTitle.textContent = `✏️ [${classNameKor}] ${country.name} 정보 수정하기`;
 
-  // 값 채워넣기 (undefined/null 등이 필드에 문자열로 들어가지 않도록 보호 장치 적용)
   document.getElementById('country-name').value = country.name || "";
   document.getElementById('country-emoji').value = country.emoji || "";
   document.getElementById('country-summary').value = country.summary || "";
   document.getElementById('country-climate').value = country.climate || "temperate";
   document.getElementById('climate-desc').value = country.climateDesc || "";
 
-  // 담당 모둠 반영
   countryGroupSelect.value = country.ownerGroup !== undefined && country.ownerGroup !== null ? String(country.ownerGroup) : "";
-  countryGroupSelect.disabled = false; // 수정을 원할 시 언제든지 변경 가능하게 오픈
+  countryGroupSelect.disabled = false;
 
   document.getElementById('clothing-desc').value = country.clothing?.desc || "";
   document.getElementById('clothing-image').value = country.clothing?.image || "";
@@ -750,7 +1018,6 @@ function showFormModal() {
   }, 10);
 }
 
-// --- 국가 추가 및 편집 모달 닫기 ---
 function closeFormModal() {
   formModal.classList.remove('modal-active');
   setTimeout(() => {
@@ -759,7 +1026,6 @@ function closeFormModal() {
   }, 300);
 }
 
-// --- 폼 제출 저장 제어 ---
 function handleFormSubmit(event) {
   event.preventDefault();
 
@@ -769,7 +1035,6 @@ function handleFormSubmit(event) {
   const climate = document.getElementById('country-climate').value;
   const climateDesc = document.getElementById('climate-desc').value.trim();
 
-  // 담당 모둠 추출
   const ownerGroupVal = countryGroupSelect.value;
   const ownerGroup = ownerGroupVal !== "" ? parseInt(ownerGroupVal, 10) : null;
 
@@ -787,7 +1052,6 @@ function handleFormSubmit(event) {
     return;
   }
 
-  // 고유 아이디 생성
   const countryId = editingCountryId || name.toLowerCase().replace(/[^a-z0-9]/g, '-') || Date.now().toString();
 
   const countryData = {
@@ -797,7 +1061,7 @@ function handleFormSubmit(event) {
     summary: summary,
     climate: climate,
     climateDesc: climateDesc,
-    ownerGroup: ownerGroup, // 모둠 소유권 매핑
+    ownerGroup: ownerGroup,
     clothing: {
       desc: clothingDesc,
       image: clothingImage
@@ -812,18 +1076,14 @@ function handleFormSubmit(event) {
     }
   };
 
-  // 모둠 연동 동기화 로직
   if (editingCountryId) {
     const oldCountry = countries.find(c => c.id === editingCountryId);
     const oldOwnerGroup = oldCountry ? oldCountry.ownerGroup : null;
 
-    // 만약 배정된 담당 모둠이 변경되었다면
     if (oldOwnerGroup !== ownerGroup) {
-      // 1. 이전 소유 모둠의 국가 리스트에서 삭제
       if (oldOwnerGroup !== null && oldOwnerGroup !== undefined && groups[oldOwnerGroup]) {
         groups[oldOwnerGroup].countryIds = groups[oldOwnerGroup].countryIds.filter(id => id !== countryId);
       }
-      // 2. 신규 소유 모둠의 국가 리스트에 추가
       if (ownerGroup !== null && ownerGroup !== undefined && groups[ownerGroup]) {
         if (!groups[ownerGroup].countryIds.includes(countryId)) {
           groups[ownerGroup].countryIds.push(countryId);
@@ -831,20 +1091,17 @@ function handleFormSubmit(event) {
       }
     }
 
-    // 수정 모드 반영
     const index = countries.findIndex(c => c.id === editingCountryId);
     if (index !== -1) {
       countries[index] = countryData;
     }
   } else {
-    // 추가 모드 (동일 아이디 검사 후 추가)
     if (countries.some(c => c.id === countryId)) {
       alert("이미 등록된 국가명이거나 고유 아이디가 중복됩니다. 다른 국가명을 입력해주세요.");
       return;
     }
     countries.push(countryData);
 
-    // 신규 추가된 국가를 소유 모둠에 동시 매핑
     if (ownerGroup !== null && ownerGroup !== undefined && groups[ownerGroup]) {
       if (!groups[ownerGroup].countryIds.includes(countryId)) {
         groups[ownerGroup].countryIds.push(countryId);
@@ -855,10 +1112,9 @@ function handleFormSubmit(event) {
   saveToLocalStorage();
   closeFormModal();
   renderDashboard();
-  renderGroups(); // 모둠 상태 리프레시
+  renderGroups();
 }
 
-// --- 국가 데이터 삭제 기능 ---
 function deleteCountry() {
   if (!selectedCountry) return;
   
@@ -866,7 +1122,6 @@ function deleteCountry() {
     const deletedId = selectedCountry.id;
     countries = countries.filter(c => c.id !== deletedId);
 
-    // 모둠에서 삭제된 나라가 매핑되어 있었다면 체크 해제
     groups.forEach(g => {
       if (g.countryIds) {
         g.countryIds = g.countryIds.filter(id => id !== deletedId);
@@ -876,7 +1131,7 @@ function deleteCountry() {
     saveToLocalStorage();
     closeDetailView();
     renderDashboard();
-    renderGroups(); // 모둠 상태 리프레시
+    renderGroups();
   }
 }
 
@@ -885,10 +1140,7 @@ function renderGroups() {
   groupsGrid.innerHTML = '';
 
   groups.forEach((group, index) => {
-    // 1. 모둠이 선택한 국가들의 상세 정보 조회
     const assignedCountries = countries.filter(c => group.countryIds.includes(c.id));
-    
-    // 2. 선택된 국가들로부터 기후 리스트 및 중복 없는 이모지 배지 생성
     const climates = [...new Set(assignedCountries.map(c => c.climate))];
     
     let climateBadgesHtml = '';
@@ -912,7 +1164,6 @@ function renderGroups() {
     const card = document.createElement('div');
     card.className = "bg-white border-2 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(30,41,59,1)] transition-all hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(30,41,59,1)] flex flex-col justify-between h-full";
 
-    // 3. 국가 미니 칩들 생성
     let countriesDisplayHtml = '';
     if (assignedCountries.length > 0) {
       countriesDisplayHtml = `
@@ -934,7 +1185,6 @@ function renderGroups() {
       `;
     }
 
-    // 예시 모둠일 때와 일반 반일 때 버튼의 타이틀 표시 매핑
     const addCountryTitle = currentClass === 'example' ? '이 예시 모둠에 새로운 나라 추가' : '이 모둠에 새로운 나라 추가';
     const settingsTitle = currentClass === 'example' ? '예시 모둠 설정 수정' : '모둠 설정 수정';
 
@@ -971,10 +1221,8 @@ function openGroupModal(index) {
   const classNameKor = classNamesMapping[currentClass];
   document.getElementById('group-form-title').textContent = `⚙️ [${classNameKor}] ${group.name} 설정`;
 
-  // 나라 선택 체크박스 목록 동적 갱신
   renderGroupCountriesCheckboxes(index, group.countryIds);
 
-  // 모달 클래스 적용 및 노출
   groupModal.classList.remove('hidden');
   groupModal.classList.add('flex');
   setTimeout(() => {
@@ -982,7 +1230,6 @@ function openGroupModal(index) {
   }, 10);
 }
 
-// 모둠 설정 모달 닫기
 function closeGroupModal() {
   groupModal.classList.remove('modal-active');
   setTimeout(() => {
@@ -1005,7 +1252,6 @@ function renderGroupCountriesCheckboxes(currentGroupIndex, selectedIds = []) {
     const wrapper = document.createElement('label');
     wrapper.className = "flex items-center space-x-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-100";
     
-    // 소유 관계 체크
     const isOwnedByOther = c.ownerGroup !== undefined && c.ownerGroup !== null && c.ownerGroup !== currentGroupIndex;
     const isChecked = selectedIds.includes(c.id) ? 'checked' : '';
     const climateInfo = climateLabels[c.climate]?.label || c.climate;
@@ -1041,26 +1287,23 @@ function handleGroupSubmit(event) {
 
   if (isNaN(index) || index < 0 || index >= groups.length) return;
 
-  // 체크된 국가 ID 수집
   const checkedBoxes = groupCountriesCheckboxes.querySelectorAll('input[name="group-country-checkbox"]:checked');
   const checkedCountryIds = Array.from(checkedBoxes).map(cb => cb.value);
 
-  // 모둠이 수동 해제(체크 해제)한 국가가 있다면, 해당 국가의 소유권(ownerGroup)도 해제(null 처리)해 주어야 합니다.
   const oldCountryIds = groups[index].countryIds || [];
   const removedCountryIds = oldCountryIds.filter(id => !checkedCountryIds.includes(id));
   
   removedCountryIds.forEach(id => {
     const country = countries.find(c => c.id === id);
     if (country && country.ownerGroup === index) {
-      country.ownerGroup = null; // 소유권 해제 (자유 탐구 상태로 변경)
+      country.ownerGroup = null;
     }
   });
 
-  // 새로 추가된 국가가 있다면, 해당 국가의 소유권(ownerGroup)을 현재 모둠으로 지정합니다.
   checkedCountryIds.forEach(id => {
     const country = countries.find(c => c.id === id);
     if (country && (country.ownerGroup === null || country.ownerGroup === undefined)) {
-      country.ownerGroup = index; // 소유권 귀속
+      country.ownerGroup = index;
     }
   });
 
@@ -1071,6 +1314,6 @@ function handleGroupSubmit(event) {
 
   saveToLocalStorage();
   closeGroupModal();
-  renderDashboard(); // 메인 대시보드 뱃지 갱신용
+  renderDashboard();
   renderGroups();
 }
